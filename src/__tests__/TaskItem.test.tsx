@@ -57,6 +57,28 @@ describe('TaskItem', () => {
       const label = screen.getByText('Completed task');
       expect(label).toHaveStyle({ textDecoration: 'line-through' });
     });
+
+    // edge case test for long task titles
+    
+    it('displays very long task titles correctly', () => {
+  	const reallyLongTitle = 'D'.repeat(500); // just used repeat for long title instead of typing 
+ 	const task = createTask({ title: reallyLongTitle });
+  
+ 	 render(<TaskItem task={task} onToggle={vi.fn()} onDelete={vi.fn()} />);
+
+ 	 // Should still display the title
+  	expect(screen.getByText(reallyLongTitle)).toBeInTheDocument();
+  	});
+  
+     // edge case for task titles with special characters
+     it('displays task titles with special characters correctly', () => {
+  	const specialTitle = 'T@sk T!tle';
+  	const task = createTask({ title: specialTitle });
+  
+ 	 render(<TaskItem task={task} onToggle={vi.fn()} onDelete={vi.fn()} />);
+
+  	expect(screen.getByText(specialTitle)).toBeInTheDocument();
+	});
   });
 
   describe('interactions', () => {
