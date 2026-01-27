@@ -144,9 +144,35 @@ describe('TaskList', () => {
       await waitFor(() => {
         expect(screen.queryByText('Task to delete')).not.toBeInTheDocument();
       });
-    });
+    })
   });
 
   // TODO: Add your own test - test error handling when createTask fails
   // Hint: Use mockRejectedValue and check for the error alert
+  //
+  // test for error handling when createTask fails
+  describe('error handling', () => {
+    it('handles errors when createTask fails', async() => {
+      const user = userEvent.setup();
+
+      mockedTaskApi.fetchTasks.mockResolvedValue([]);
+      mockedTaskApi.createTask.mockRejectedValue(new Error('Create failed'));
+
+      render(<TaskList/>);
+
+      // wait for initial load to finish
+      await screen.findByText(/no tasks yet/i);
+
+      // attempt to add task 
+      await user.type(screen.getByLabelText(/task title/i), 'Bad task');
+
+      await user.click(screen.getByRole('button', {name: /add task/i}));
+
+      // make sure alert appears
+      expect(await screen.findByRole('alert')).toHaveTextContent(/failed to add task/i);
+	
+      // make sure task wasnt added
+      expect(screen.queryByText('Bad task')).not.toBeInTheDocument();
+    });	
+  });
 });
