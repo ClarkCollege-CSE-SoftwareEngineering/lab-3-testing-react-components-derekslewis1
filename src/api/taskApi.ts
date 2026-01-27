@@ -10,7 +10,7 @@ export interface CreateTaskData {
 
 const API_BASE = "/api/tasks";
 
-export async function fetchTasks(): Promise {
+export async function fetchTasks(): Promise<Task[]> {
   const response = await fetch(API_BASE);
   if (!response.ok) {
     throw new Error("Failed to fetch tasks");
@@ -18,7 +18,7 @@ export async function fetchTasks(): Promise {
   return response.json();
 }
 
-export async function createTask(data: CreateTaskData): Promise {
+export async function createTask(data: CreateTaskData): Promise<Task> {
   const response = await fetch(API_BASE, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -30,7 +30,7 @@ export async function createTask(data: CreateTaskData): Promise {
   return response.json();
 }
 
-export async function deleteTask(id: string): Promise {
+export async function deleteTask(id: string): Promise<void> {
   const response = await fetch(`${API_BASE}/${id}`, {
     method: "DELETE",
   });
@@ -39,7 +39,7 @@ export async function deleteTask(id: string): Promise {
   }
 }
 
-export async function toggleTask(id: string, completed: boolean): Promise {
+export async function toggleTask(id: string, completed: boolean): Promise<Task> {
   const response = await fetch(`${API_BASE}/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },

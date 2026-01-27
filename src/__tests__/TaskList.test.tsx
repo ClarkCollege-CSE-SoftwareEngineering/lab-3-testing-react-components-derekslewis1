@@ -144,7 +144,7 @@ describe('TaskList', () => {
       await waitFor(() => {
         expect(screen.queryByText('Task to delete')).not.toBeInTheDocument();
       });
-    })
+    });
   });
 
   // TODO: Add your own test - test error handling when createTask fails
