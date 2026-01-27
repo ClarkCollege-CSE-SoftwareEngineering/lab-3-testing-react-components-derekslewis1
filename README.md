@@ -1114,3 +1114,32 @@ export default defineConfig({
 - 🔗 [Testing Library Query Priority](https://testing-library.com/docs/queries/about#priority)
 - 🔗 [Vitest Documentation](https://vitest.dev/)
 - 🔗 [Common Testing Library Mistakes](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
+
+## Reflection 
+
+**Derek Lewis**
+**Jan 25, 2026**
+
+
+#### How does using getByRole and getByLabelText improve test reliability compared to getByTestId?
+
+Using getByRole and getByLabelText, rather than getByTestId is more reliable because you are testing how the user would interact, rather than implementation details. The user will never see the testId, but will interact with label names, or see buttons on the screen. It also allows for your tests not to fail if you for some reason change your test-id's.
+
+#### Describe a situation where you would use queryBy instead of getBy
+
+You would use 'queryBy' instead of 'getBy' when you need to check that an element doesn't exist in the DOM. 'GetBy' throws an error if the element is not found, while 'queryBy' returns 'null'. This is useful when testing conditional rendering, such as ensuring an error message or list item is removed. For example, in my error handling test, I used queryByText('Bad task') to confirm that a task was not added after a failed API call, without causing the test to fail immediately.
+
+#### What are the trade-offs of mocking API calls vs. testing against a real backend?
+
+Mocking an API allows for you to guarantee that the data will be there, and you improve time-wise while programming and running simple checks. It also allows for you to test your code is working as intended, even if the API is down. However, mocking doesn't actually test a real case scenario so it won't catch issues like formatting errors, or backend / endpoint problems because you know how it is set up already.
+
+
+#### Key Concepts 
+
+1. **Testing from a User Perspective**: Using 'getByRole', 'getByLabelText', and 'getByText' tests components from a user's perspective rather than implementation details. This makes tests more reliable and resilient to refactoring, while also encouraging better accessibility practices.
+
+2. **When to use getBy vs. findBy**: Understanding when to use 'getBy', 'queryBy', and 'findBy'. Each serves a different purpose: `getBy` for required elements, 'queryBy' for checking absence, and `findBy` for elements that appear after async operations.
+
+3. **Async Testing**: Using 'findBy' queries and 'waitFor' utilities helps test components that load data asynchronously. These wait for elements to appear, ensuring tests don't fail due to timing issues.
+
+

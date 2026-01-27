@@ -160,7 +160,7 @@ describe('TaskList', () => {
 
       render(<TaskList/>);
 
-      // wait for initial load to finish
+      // wait for task
       await screen.findByText(/no tasks yet/i);
 
       // attempt to add task 
